@@ -52,7 +52,6 @@ if (!function_exists('add_aceEditor')) {
 
 					var editorEl = document.createElement('div');
 					editorEl.id = '$elem-editor';
-					editorEl.innerHTML = codeElems['$elem'].value.replace('<', '&lt');
 					codeElems['$elem'].parentNode.appendChild(editorEl);
 
 					editors['$elem'] = ace.edit('$elem-editor');
@@ -64,16 +63,11 @@ if (!function_exists('add_aceEditor')) {
 
 					editors['$elem'].setTheme('ace/theme/$options[theme]');
 					editors['$elem'].session.setMode('ace/mode/$mode');
-					editors['$elem'].session.\$mode.\$highlightRules.addRules(
-						{
-							'start': [{ token:'tag', regex: '{{', next: 'chunk' }],
-							'chunk': [{ token:'tag', regex: '}}', next: 'start' }, { defaultToken: 'tag' }]
-						}, 'modx-'
-					);
 					editors['$elem'].session.on('change', function() {
-						codeElems['$elem'].innerHTML = editors['$elem'].session.getValue().replace('<', '&lt');
+						codeElems['$elem'].innerHTML = editors['$elem'].session.getValue();
 					});
-					console.log(editors);
+					
+					editors['$elem'].setValue(codeElems['$elem'].value, -1);
 				</script>	
 			";
 		}
